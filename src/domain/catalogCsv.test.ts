@@ -2,11 +2,11 @@
 import { describe, expect, it } from 'vitest';
 import { parseCatalogCsv } from './catalogCsv';
 
-const HEADER = 'id,title,provider,manifestUrl,iiifVersion,thumbnail,description,tags';
+const HEADER = 'id,title,provider,manifestUrl,iiifVersion,description,tags';
 
 describe('parseCatalogCsv', () => {
   it('parses valid rows into entries', () => {
-    const csv = `${HEADER}\na,Book,Lib,https://x.org/m.json,3,https://x.org/t.jpg,"desc, with comma",map; japan ;\n`;
+    const csv = `${HEADER}\na,Book,Lib,https://x.org/m.json,3,"desc, with comma",map; japan ;\n`;
     const { entries, errors } = parseCatalogCsv(csv);
     expect(errors).toEqual([]);
     expect(entries).toEqual([
@@ -16,7 +16,6 @@ describe('parseCatalogCsv', () => {
         provider: 'Lib',
         manifestUrl: 'https://x.org/m.json',
         iiifVersion: 3,
-        thumbnail: 'https://x.org/t.jpg',
         description: 'desc, with comma',
         tags: ['map', 'japan'],
       },
@@ -27,15 +26,13 @@ describe('parseCatalogCsv', () => {
     const { entries } = parseCatalogCsv('title,manifestUrl\nOnly,https://x.org/m\n');
     expect(entries[0]).toMatchObject({ id: 'row-1', provider: '不明', tags: [] });
     expect(entries[0].iiifVersion).toBeUndefined();
-    expect(entries[0].thumbnail).toBeUndefined();
     expect(entries[0].description).toBeUndefined();
   });
 
   it('reports invalid rows without dropping valid ones', () => {
-    const csv = `${HEADER}\na,,L,https://x.org/1,2,,,\nb,Bad url,L,javascript:alert(1),2,,,\nc,Good,L,https://x.org/3,2,javascript:x,,\n`;
+    const csv = `${HEADER}\na,,L,https://x.org/1,2,,\nb,Bad url,L,javascript:alert(1),2,,\nc,Good,L,https://x.org/3,2,,\n`;
     const { entries, errors } = parseCatalogCsv(csv);
     expect(entries.map((e) => e.id)).toEqual(['c']);
-    expect(entries[0].thumbnail).toBeUndefined();
     expect(errors).toEqual([
       { row: 1, message: 'title が空です' },
       { row: 2, message: 'manifestUrl が不正です: "javascript:alert(1)"' },
@@ -70,13 +67,13 @@ describe('parseCatalogCsv', () => {
     const csv = await readFile(`${process.cwd()}/public/data/manifests.csv`, 'utf8');
     const { entries, errors } = parseCatalogCsv(csv);
     expect(errors).toEqual([]);
-    expect(entries.length).toBeGreaterThanOrEqual(10);
+    expect(entries.length).toBeGreaterThanOrEqual(30);
+    expect(entries.filter((e) => e.provider === '国立国会図書館').length).toBeGreaterThanOrEqual(15);
     expect(new Set(entries.map((e) => e.provider)).size).toBeGreaterThanOrEqual(5);
     // Guards against unquoted commas in URLs shifting columns.
     for (const entry of entries) {
       expect(entry.iiifVersion, entry.id).toBeDefined();
       expect(entry.description ?? '', entry.id).not.toMatch(/default\.jpg|^https?:/);
-      if (entry.thumbnail) expect(entry.thumbnail, entry.id).toMatch(/\.(jpg|png)$/);
     }
   });
 });

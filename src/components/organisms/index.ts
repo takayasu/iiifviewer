@@ -1,5 +1,7 @@
 export { AppHeader, type AppHeaderProps } from './AppHeader';
-export { ManifestGallery, type ManifestGalleryProps } from './ManifestGallery';
+export { ManifestCardGrid, type ManifestCardGridProps } from './ManifestCardGrid';
+export { ManifestCatalog, type ManifestCatalogProps } from './ManifestCatalog';
+export { ManifestTable, type ManifestTableProps } from './ManifestTable';
 export { MetadataPanel, type MetadataPanelProps } from './MetadataPanel';
 export { ThumbnailPanel, type ThumbnailPanelProps } from './ThumbnailPanel';
 export { ViewerToolbar, type ViewerToolbarProps } from './ViewerToolbar';

@@ -1,6 +1,6 @@
 import Papa from 'papaparse';
 import type { IiifVersion, ManifestEntry } from './types';
-import { isHttpUrl, toSafeUrl } from './url';
+import { isHttpUrl } from './url';
 
 export interface CsvRowError {
   /** 1-based data row number (header excluded). */
@@ -48,7 +48,6 @@ function toEntry(raw: RawRow, row: number): ManifestEntry | CsvRowError {
     provider: clean(raw.provider) || '不明',
     manifestUrl,
     iiifVersion: parseVersion(clean(raw.iiifVersion)),
-    thumbnail: toSafeUrl(clean(raw.thumbnail)),
     description: description || undefined,
     tags: parseTags(clean(raw.tags)),
   };

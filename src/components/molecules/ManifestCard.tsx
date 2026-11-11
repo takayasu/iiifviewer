@@ -1,30 +1,25 @@
-import {
-  Caption1,
-  Card,
-  CardHeader,
-  CardPreview,
-  makeStyles,
-  Tag,
-  TagGroup,
-  Text,
-  tokens,
-} from '@fluentui/react-components';
+import { Caption1, Card, CardHeader, makeStyles, Tag, TagGroup, Text, tokens } from '@fluentui/react-components';
 import type { ManifestEntry } from '../../domain/types';
-import { Thumbnail, VersionBadge } from '../atoms';
+import { VersionBadge } from '../atoms';
 
 const useStyles = makeStyles({
-  card: { height: '100%' },
-  preview: { height: '180px' },
+  card: { height: '100%', boxSizing: 'border-box' },
   title: { fontWeight: tokens.fontWeightSemibold },
   description: {
     color: tokens.colorNeutralForeground2,
     display: '-webkit-box',
-    WebkitLineClamp: 2,
+    WebkitLineClamp: 3,
     WebkitBoxOrient: 'vertical',
     overflow: 'hidden',
   },
+  footer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: tokens.spacingHorizontalXS,
+    alignItems: 'center',
+    marginTop: 'auto',
+  },
   tags: { flexWrap: 'wrap', gap: tokens.spacingHorizontalXXS },
-  footer: { display: 'flex', flexWrap: 'wrap', gap: tokens.spacingHorizontalXS, alignItems: 'center' },
 });
 
 export interface ManifestCardProps {
@@ -36,9 +31,6 @@ export function ManifestCard({ entry, onOpen }: ManifestCardProps) {
   const styles = useStyles();
   return (
     <Card className={styles.card} onClick={() => onOpen(entry)} aria-label={`${entry.title} を開く`}>
-      <CardPreview className={styles.preview}>
-        <Thumbnail src={entry.thumbnail} alt={entry.title} />
-      </CardPreview>
       <CardHeader
         header={<Text className={styles.title}>{entry.title}</Text>}
         description={<Caption1>{entry.provider}</Caption1>}

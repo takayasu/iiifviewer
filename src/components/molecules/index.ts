@@ -2,6 +2,8 @@ export { CanvasThumbnailItem, type CanvasThumbnailItemProps } from './CanvasThum
 export { ErrorNotice, type ErrorNoticeProps } from './ErrorNotice';
 export { ManifestCard, type ManifestCardProps } from './ManifestCard';
 export { PageNavigator, type PageNavigatorProps } from './PageNavigator';
+export { Pagination, type PaginationProps } from './Pagination';
 export { UrlOpenForm, type UrlOpenFormProps } from './UrlOpenForm';
+export { ViewModeSwitch, type ViewModeSwitchProps } from './ViewModeSwitch';
 export { ViewportStatus, type ViewportStatusProps } from './ViewportStatus';
 export { ZoomControls, type ZoomControlsProps } from './ZoomControls';

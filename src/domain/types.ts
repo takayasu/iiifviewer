@@ -5,7 +5,6 @@ export interface ManifestEntry {
   readonly provider: string;
   readonly manifestUrl: string;
   readonly iiifVersion?: IiifVersion;
-  readonly thumbnail?: string;
   readonly description?: string;
   readonly tags: readonly string[];
 }

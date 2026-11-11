@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import type { CsvRowError } from '../../domain/catalogCsv';
 import type { ManifestEntry } from '../../domain/types';
 import { useCatalog } from '../../hooks/useCatalog';
+import { useCatalogViewState } from '../../hooks/useCatalogViewState';
 import { viewerPath } from '../../routes';
 import { LoadingState } from '../atoms';
 import { ErrorNotice, UrlOpenForm } from '../molecules';
-import { AppHeader, ManifestGallery } from '../organisms';
+import { AppHeader, ManifestCatalog } from '../organisms';
 import { CatalogTemplate } from '../templates';
 
 const useStyles = makeStyles({
@@ -22,6 +23,7 @@ export function CatalogPage() {
   const styles = useStyles();
   const navigate = useNavigate();
   const catalog = useCatalog();
+  const [viewState, updateViewState] = useCatalogViewState();
   const openUrl = (url: string): void => {
     void navigate(viewerPath(url));
   };
@@ -32,7 +34,7 @@ export function CatalogPage() {
       <div className={styles.intro}>
         <Title2 as="h1">IIIF マニフェスト一覧</Title2>
         <Body1 className={styles.lead}>
-          ローカルの CSV（public/data/manifests.csv）に登録されたマニフェストです。カードを選択するとビューアで開きます。
+          ローカルの CSV（public/data/manifests.csv）に登録されたマニフェストです。項目を選択するとビューアで開きます。表示形式・ページ・検索条件はビューアから戻っても保持されます。
         </Body1>
       </div>
       <Card>
@@ -49,7 +51,12 @@ export function CatalogPage() {
               message={rowErrorSummary(catalog.data.errors)}
             />
           )}
-          <ManifestGallery entries={catalog.data.entries} onOpen={openEntry} />
+          <ManifestCatalog
+            entries={catalog.data.entries}
+            viewState={viewState}
+            onViewStateChange={updateViewState}
+            onOpen={openEntry}
+          />
         </>
       )}
     </CatalogTemplate>

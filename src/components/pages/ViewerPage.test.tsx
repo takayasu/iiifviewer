@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { v3Manifest } from '../../test/fixtures';
@@ -36,8 +36,15 @@ vi.mock('openseadragon', () => ({ default: vi.fn(() => osd.viewer) }));
 const ROUTE = `/viewer?manifest=${encodeURIComponent('https://example.org/iiif/book/manifest')}`;
 
 describe('ViewerPage', () => {
+  /** The viewer registers OSD handlers in a mount effect; wait for it before firing events. */
+  async function handlerFor(name: string): Promise<(event: { message?: string }) => void> {
+    await waitFor(() => expect(osd.handlers.has(name)).toBe(true));
+    return osd.handlers.get(name)!;
+  }
+
   beforeEach(() => {
     vi.clearAllMocks();
+    osd.handlers.clear();
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify(v3Manifest)));
   });
 
@@ -76,7 +83,7 @@ describe('ViewerPage', () => {
     });
     renderWithProviders(<ViewerPage />, { route: ROUTE });
     await screen.findByText('サンプル図書');
-    osd.handlers.get('open')?.({});
+    (await handlerFor('open'))({});
     expect(await screen.findByText('50%')).toBeInTheDocument();
     // Region is clipped to the image: x -50..250 → 0..250
     expect(screen.getByText('表示領域 x:0 y:20 250×400px')).toBeInTheDocument();
@@ -86,7 +93,7 @@ describe('ViewerPage', () => {
   it('shows an image error from the viewer', async () => {
     renderWithProviders(<ViewerPage />, { route: ROUTE });
     await screen.findByText('サンプル図書');
-    osd.handlers.get('open-failed')?.({ message: 'Unable to load' });
+    (await handlerFor('open-failed'))({ message: 'Unable to load' });
     expect(await screen.findByText(/画像を開けませんでした: Unable to load/)).toBeInTheDocument();
   });
 
