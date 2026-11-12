@@ -1,6 +1,7 @@
+import { readDescriptive } from './descriptive';
 import { toText } from './language';
 import { asArray, asNumber, asRecord, getId, pickThumbnail, toCanvasImage } from './iiifImage';
-import type { CanvasPage, IiifVersion, MetadataEntry, NormalizedManifest } from './types';
+import type { CanvasPage, IiifVersion, NormalizedManifest } from './types';
 
 export class ManifestFormatError extends Error {
   constructor(message: string) {
@@ -27,16 +28,20 @@ function assertManifestType(manifest: Json): void {
   }
 }
 
-function toMetadata(items: unknown): MetadataEntry[] {
-  return asArray(items)
-    .map(asRecord)
-    .filter((item): item is Json => item !== undefined)
-    .map((item) => ({ label: toText(item.label), value: toText(item.value) }))
-    .filter((entry) => entry.label !== '' || entry.value !== '');
-}
-
 function pageLabel(label: unknown, index: number): string {
   return toText(label) || `${index + 1}`;
+}
+
+function viewingDirectionOf(...candidates: unknown[]): string | undefined {
+  const found = candidates.find((value) => typeof value === 'string' && value !== '');
+  return typeof found === 'string' ? found : undefined;
+}
+
+function providerOf(value: unknown): string | undefined {
+  const names = asArray(value)
+    .map((agent) => toText(asRecord(agent)?.label))
+    .filter((name) => name !== '');
+  return names.length > 0 ? names.join(' / ') : undefined;
 }
 
 /* ---------- Presentation API v3 ---------- */
@@ -54,6 +59,7 @@ function v3Canvas(raw: unknown, index: number): CanvasPage | undefined {
   if (!canvas || !id) return undefined;
   const image = toCanvasImage(firstPaintingBody(canvas));
   return {
+    ...readDescriptive(canvas, 3),
     id,
     label: pageLabel(canvas.label, index),
     width: asNumber(canvas.width),
@@ -64,15 +70,14 @@ function v3Canvas(raw: unknown, index: number): CanvasPage | undefined {
 }
 
 function normalizeV3(m: Json): NormalizedManifest {
-  const statement = asRecord(m.requiredStatement);
   return {
+    ...readDescriptive(m, 3),
     id: getId(m) ?? '',
     version: 3,
     label: toText(m.label) || '(無題)',
-    summary: toText(m.summary) || undefined,
-    attribution: toText(statement?.value) || undefined,
-    rights: typeof m.rights === 'string' ? m.rights : undefined,
-    metadata: toMetadata(m.metadata),
+    provider: providerOf(m.provider),
+    viewingDirection: viewingDirectionOf(m.viewingDirection),
+    structureCount: asArray(m.structures).length,
     canvases: asArray(m.items)
       .filter((item) => asRecord(item)?.type === 'Canvas')
       .map(v3Canvas)
@@ -93,6 +98,7 @@ function v2Canvas(raw: unknown, index: number): CanvasPage | undefined {
   if (!canvas || !id) return undefined;
   const image = toCanvasImage(v2Resource(canvas));
   return {
+    ...readDescriptive(canvas, 2),
     id,
     label: pageLabel(canvas.label, index),
     width: asNumber(canvas.width),
@@ -105,13 +111,12 @@ function v2Canvas(raw: unknown, index: number): CanvasPage | undefined {
 function normalizeV2(m: Json): NormalizedManifest {
   const sequence = asRecord(asArray(m.sequences)[0]);
   return {
+    ...readDescriptive(m, 2),
     id: getId(m) ?? '',
     version: 2,
     label: toText(m.label) || '(無題)',
-    summary: toText(m.description) || undefined,
-    attribution: toText(m.attribution) || undefined,
-    rights: typeof m.license === 'string' ? m.license : getId(asArray(m.license)[0]),
-    metadata: toMetadata(m.metadata),
+    viewingDirection: viewingDirectionOf(m.viewingDirection, sequence?.viewingDirection),
+    structureCount: asArray(m.structures).length,
     canvases: asArray(sequence?.canvases)
       .map(v2Canvas)
       .filter((c): c is CanvasPage => c !== undefined),

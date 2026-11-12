@@ -86,6 +86,115 @@ describe('normalizeManifest (v2)', () => {
   });
 });
 
+describe('descriptive and structural properties (v3)', () => {
+  const manifest = normalizeManifest({
+    ...v3Manifest,
+    provider: [{ id: 'https://example.org/about', type: 'Agent', label: { en: ['Example Library'] } }],
+    homepage: [{ id: 'https://example.org/book', type: 'Text', label: { en: ['Book page'] }, format: 'text/html' }],
+    seeAlso: [{ id: 'https://example.org/book.xml', type: 'Dataset', format: 'text/xml' }],
+    rendering: [{ id: 'https://example.org/book.pdf', type: 'Text', label: { en: ['PDF'] }, format: 'application/pdf' }],
+    navDate: '1700-01-01T00:00:00Z',
+    viewingDirection: 'right-to-left',
+    structures: [{ id: 'https://example.org/r1', type: 'Range' }, { id: 'https://example.org/r2', type: 'Range' }],
+    items: [
+      {
+        ...v3Manifest.items[0],
+        summary: { en: ['Frontispiece'] },
+        metadata: [{ label: { en: ['Folio'] }, value: { none: ['1r'] } }],
+        requiredStatement: { label: { en: ['Attribution'] }, value: { en: ['Page owner'] } },
+        rights: 'http://rightsstatements.org/vocab/NoC-NC/1.0/',
+        seeAlso: [{ id: 'https://example.org/p1.alto.xml', type: 'Dataset', label: { en: ['ALTO'] } }],
+      },
+    ],
+  });
+
+  it('extracts manifest-level structure', () => {
+    expect(manifest).toMatchObject({
+      provider: 'Example Library',
+      navDate: '1700-01-01T00:00:00Z',
+      viewingDirection: 'right-to-left',
+      structureCount: 2,
+    });
+    expect(manifest.links).toEqual([
+      { kind: 'homepage', label: 'Book page', url: 'https://example.org/book', format: 'text/html' },
+      { kind: 'seeAlso', label: 'https://example.org/book.xml', url: 'https://example.org/book.xml', format: 'text/xml' },
+      { kind: 'rendering', label: 'PDF', url: 'https://example.org/book.pdf', format: 'application/pdf' },
+    ]);
+  });
+
+  it('extracts canvas-level descriptive properties', () => {
+    expect(manifest.canvases[0]).toMatchObject({
+      summary: 'Frontispiece',
+      attribution: 'Page owner',
+      rights: 'http://rightsstatements.org/vocab/NoC-NC/1.0/',
+      metadata: [{ label: 'Folio', value: '1r' }],
+      links: [{ kind: 'seeAlso', label: 'ALTO', url: 'https://example.org/p1.alto.xml', format: undefined }],
+    });
+  });
+
+  it('defaults to empty metadata, links and structures', () => {
+    const plain = normalizeManifest(v3Manifest);
+    expect(plain.links).toEqual([]);
+    expect(plain.structureCount).toBe(0);
+    expect(plain.canvases[1]).toMatchObject({ metadata: [], links: [] });
+    expect(plain.canvases[1].summary).toBeUndefined();
+  });
+
+  it('ignores links with non-http urls', () => {
+    const unsafe = normalizeManifest({ ...v3Manifest, homepage: [{ id: 'javascript:alert(1)', type: 'Text' }] });
+    expect(unsafe.links).toEqual([]);
+  });
+});
+
+describe('descriptive and structural properties (v2)', () => {
+  const canvas = {
+    ...v2Manifest.sequences[0].canvases[0],
+    description: 'Sheet 1',
+    attribution: 'Sheet owner',
+    license: 'https://creativecommons.org/licenses/by/4.0/',
+    metadata: [{ label: 'Sheet', value: '1' }],
+    seeAlso: 'https://example.org/v2/canvas1.txt',
+  };
+  const manifest = normalizeManifest({
+    ...v2Manifest,
+    related: { '@id': 'https://example.org/v2/item', label: 'Item page', format: 'text/html' },
+    seeAlso: 'https://example.org/v2/item.json',
+    rendering: [{ '@id': 'https://example.org/v2/item.pdf', label: 'PDF', format: 'application/pdf' }],
+    navDate: '1700-01-01T00:00:00Z',
+    viewingDirection: 'right-to-left',
+    structures: [{ '@id': 'https://example.org/v2/range/1', '@type': 'sc:Range' }],
+    sequences: [{ canvases: [canvas] }],
+  });
+
+  it('maps v2 properties to the normalized structure', () => {
+    expect(manifest).toMatchObject({ navDate: '1700-01-01T00:00:00Z', viewingDirection: 'right-to-left', structureCount: 1 });
+    expect(manifest.provider).toBeUndefined();
+    expect(manifest.links.map((link) => [link.kind, link.label])).toEqual([
+      ['homepage', 'Item page'],
+      ['seeAlso', 'https://example.org/v2/item.json'],
+      ['rendering', 'PDF'],
+    ]);
+  });
+
+  it('extracts canvas-level descriptive properties', () => {
+    expect(manifest.canvases[0]).toMatchObject({
+      summary: 'Sheet 1',
+      attribution: 'Sheet owner',
+      rights: 'https://creativecommons.org/licenses/by/4.0/',
+      metadata: [{ label: 'Sheet', value: '1' }],
+      links: [{ kind: 'seeAlso', url: 'https://example.org/v2/canvas1.txt' }],
+    });
+  });
+
+  it('takes the viewing direction from the sequence when the manifest has none', () => {
+    const fromSequence = normalizeManifest({
+      ...v2Manifest,
+      sequences: [{ ...v2Manifest.sequences[0], viewingDirection: 'right-to-left' }],
+    });
+    expect(fromSequence.viewingDirection).toBe('right-to-left');
+  });
+});
+
 describe('image body edge cases', () => {
   it('strips trailing slashes from service ids', () => {
     const canvas = structuredClone(v2Manifest.sequences[0].canvases[0]) as Record<string, any>;

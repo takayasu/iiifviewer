@@ -27,8 +27,33 @@ export interface CanvasImage {
   readonly height?: number;
 }
 
+export interface MetadataEntry {
+  readonly label: string;
+  readonly value: string;
+}
+
+/** homepage (v2: related), seeAlso and rendering references. */
+export type ResourceLinkKind = 'homepage' | 'seeAlso' | 'rendering';
+
+export interface ResourceLink {
+  readonly kind: ResourceLinkKind;
+  readonly label: string;
+  readonly url: string;
+  readonly format?: string;
+}
+
+/** Descriptive properties shared by Manifests and Canvases (v2/v3 normalized). */
+export interface DescriptiveInfo {
+  readonly summary?: string;
+  readonly attribution?: string;
+  readonly rights?: string;
+  readonly navDate?: string;
+  readonly metadata: readonly MetadataEntry[];
+  readonly links: readonly ResourceLink[];
+}
+
 /** A single page (IIIF Canvas) normalized across Presentation API versions. */
-export interface CanvasPage {
+export interface CanvasPage extends DescriptiveInfo {
   readonly id: string;
   readonly label: string;
   readonly width?: number;
@@ -37,19 +62,15 @@ export interface CanvasPage {
   readonly thumbnail?: string;
 }
 
-export interface MetadataEntry {
-  readonly label: string;
-  readonly value: string;
-}
-
 /** Presentation API v2/v3 manifest normalized to what the viewer needs. */
-export interface NormalizedManifest {
+export interface NormalizedManifest extends DescriptiveInfo {
   readonly id: string;
   readonly version: IiifVersion;
   readonly label: string;
-  readonly summary?: string;
-  readonly attribution?: string;
-  readonly rights?: string;
-  readonly metadata: readonly MetadataEntry[];
+  /** v3 `provider` agents' labels (v2 has no equivalent). */
+  readonly provider?: string;
+  readonly viewingDirection?: string;
+  /** Number of top-level Ranges (table of contents entries). */
+  readonly structureCount: number;
   readonly canvases: readonly CanvasPage[];
 }
