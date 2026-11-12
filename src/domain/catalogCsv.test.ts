@@ -57,6 +57,24 @@ describe('parseCatalogCsv', () => {
     expect(errors.some((e) => e.message.startsWith('CSV 構文エラー'))).toBe(true);
   });
 
+  it('parses an optional thumbnailUrl column', () => {
+    const csv = 'title,manifestUrl,thumbnailUrl\nA,https://x.org/a,https://x.org/a/thumb.jpg\nB,https://x.org/b,\n';
+    const { entries, errors } = parseCatalogCsv(csv);
+    expect(errors).toEqual([]);
+    expect(entries[0].thumbnailUrl).toBe('https://x.org/a/thumb.jpg');
+    expect(entries[1].thumbnailUrl).toBeUndefined();
+  });
+
+  it('keeps the row but drops and reports an invalid thumbnailUrl', () => {
+    const csv = 'title,manifestUrl,thumbnailUrl\nA,https://x.org/a,javascript:alert(1)\n';
+    const { entries, errors } = parseCatalogCsv(csv);
+    expect(entries).toHaveLength(1);
+    expect(entries[0].thumbnailUrl).toBeUndefined();
+    expect(errors).toEqual([
+      { row: 1, message: 'thumbnailUrl が不正です（サムネイルなしで表示）: "javascript:alert(1)"' },
+    ]);
+  });
+
   it('skips blank lines', () => {
     const { entries } = parseCatalogCsv('title,manifestUrl\n\nA,https://x.org/a\n   \n');
     expect(entries).toHaveLength(1);
@@ -73,6 +91,7 @@ describe('parseCatalogCsv', () => {
     // Guards against unquoted commas in URLs shifting columns.
     for (const entry of entries) {
       expect(entry.iiifVersion, entry.id).toBeDefined();
+      expect(entry.thumbnailUrl, entry.id).toMatch(/^https:\/\//);
       expect(entry.description ?? '', entry.id).not.toMatch(/default\.jpg|^https?:/);
     }
   });

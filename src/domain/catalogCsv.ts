@@ -35,26 +35,40 @@ function parseTags(value: string): string[] {
     .filter((tag) => tag.length > 0);
 }
 
-function toEntry(raw: RawRow, row: number): ManifestEntry | CsvRowError {
-  const title = clean(raw.title);
-  const manifestUrl = clean(raw.manifestUrl);
-  if (!title) return { row, message: 'title が空です' };
-  if (!isHttpUrl(manifestUrl)) return { row, message: `manifestUrl が不正です: "${manifestUrl}"` };
-
-  const description = clean(raw.description);
-  return {
-    id: clean(raw.id) || `row-${row}`,
-    title,
-    provider: clean(raw.provider) || '不明',
-    manifestUrl,
-    iiifVersion: parseVersion(clean(raw.iiifVersion)),
-    description: description || undefined,
-    tags: parseTags(clean(raw.tags)),
-  };
+/** A parsed row: the entry (if valid) plus any problems worth reporting. */
+interface RowResult {
+  readonly entry?: ManifestEntry;
+  readonly errors: readonly CsvRowError[];
 }
 
-function isRowError(value: ManifestEntry | CsvRowError): value is CsvRowError {
-  return 'message' in value;
+/** Optional column: an invalid value is dropped (and reported) without rejecting the row. */
+function parseThumbnail(value: string, row: number): { url?: string; error?: CsvRowError } {
+  if (!value) return {};
+  if (isHttpUrl(value)) return { url: value };
+  return { error: { row, message: `thumbnailUrl が不正です（サムネイルなしで表示）: "${value}"` } };
+}
+
+function toEntry(raw: RawRow, row: number): RowResult {
+  const title = clean(raw.title);
+  const manifestUrl = clean(raw.manifestUrl);
+  if (!title) return { errors: [{ row, message: 'title が空です' }] };
+  if (!isHttpUrl(manifestUrl)) return { errors: [{ row, message: `manifestUrl が不正です: "${manifestUrl}"` }] };
+
+  const description = clean(raw.description);
+  const thumbnail = parseThumbnail(clean(raw.thumbnailUrl), row);
+  return {
+    entry: {
+      id: clean(raw.id) || `row-${row}`,
+      title,
+      provider: clean(raw.provider) || '不明',
+      manifestUrl,
+      iiifVersion: parseVersion(clean(raw.iiifVersion)),
+      description: description || undefined,
+      tags: parseTags(clean(raw.tags)),
+      thumbnailUrl: thumbnail.url,
+    },
+    errors: thumbnail.error ? [thumbnail.error] : [],
+  };
 }
 
 function dedupeById(entries: readonly ManifestEntry[]): { entries: ManifestEntry[]; duplicates: CsvRowError[] } {
@@ -86,14 +100,12 @@ export function parseCatalogCsv(csvText: string): CatalogParseResult {
     message: `CSV 構文エラー: ${e.message}`,
   }));
   const badRows = new Set(parseErrors.map((e) => e.row));
-  const results = parsed.data.map((raw, index) =>
-    badRows.has(index + 1) ? undefined : toEntry(raw, index + 1),
-  );
+  const results = parsed.data.flatMap((raw, index) => (badRows.has(index + 1) ? [] : [toEntry(raw, index + 1)]));
   const { entries, duplicates } = dedupeById(
-    results.filter((r): r is ManifestEntry => r !== undefined && !isRowError(r)),
+    results.flatMap((r) => (r.entry ? [r.entry] : [])),
   );
   return {
     entries,
-    errors: [...parseErrors, ...results.filter((r): r is CsvRowError => r !== undefined && isRowError(r)), ...duplicates],
+    errors: [...parseErrors, ...results.flatMap((r) => r.errors), ...duplicates],
   };
 }
