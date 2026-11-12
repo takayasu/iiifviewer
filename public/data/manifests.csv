@@ -1,33 +1,33 @@
-id,title,provider,manifestUrl,iiifVersion,description,tags
-wellcome-b18035723,Wunder der Vererbung,Wellcome Collection,https://iiif.wellcomecollection.org/presentation/v3/b18035723,3,遺伝学に関する1922年刊行のドイツ語図書（36ページ）,図書;科学
-ndl-1286201,和泉国絵図,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1286201/manifest.json,2,江戸時代の和泉国の国絵図（大判1枚）,地図;日本
-stanford-bb157hs6068-v2,Nouvelle carte de la sphère (v2),Stanford University Libraries,https://purl.stanford.edu/bb157hs6068/iiif/manifest,2,天球図。Presentation API v2 版,地図;天文
-stanford-bb157hs6068-v3,Nouvelle carte de la sphère (v3),Stanford University Libraries,https://purl.stanford.edu/bb157hs6068/iiif3/manifest,3,同一資料の Presentation API v3 版（v2/v3 比較用）,地図;天文
-cookbook-0009-book-1,Simple Manifest - Book,IIIF Cookbook,https://iiif.io/api/cookbook/recipe/0009-book-1/manifest.json,3,IIIF Cookbook のページめくり用サンプル（5ページ）,サンプル;図書
-cookbook-0005-image-service,Picture of Göttingen,IIIF Cookbook,https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json,3,Image API v3 サービス付きの単一画像,サンプル;写真
-cookbook-0001-mvm-image,Simplest Image Example,IIIF Cookbook,https://iiif.io/api/cookbook/recipe/0001-mvm-image/manifest.json,3,Image サービスなしの静的画像（フォールバック表示の確認用）,サンプル
-kyoto-rb00000143,寛永後萬治前洛中絵図,京都大学貴重資料デジタルアーカイブ,https://rmda.kulib.kyoto-u.ac.jp/iiif/metadata_manifest/RB00000143/manifest.json,3,江戸前期の京都市街図（11画像）,地図;日本
-bodleian-ms-ind-inst-misc-22,MS. Ind. Inst. Misc. 22,Bodleian Libraries,https://iiif.bodleian.ox.ac.uk/iiif/manifest/e32a277e-91e2-4a6d-8ba6-cc4bad230410.json,2,ボドリアン図書館所蔵の写本（84画像）,写本
-nijl-100249737,算法綴術,国文学研究資料館,https://kotenseki.nijl.ac.jp/biblio/100249737/manifest,2,和算書（72画像）,和算;日本
-utokyo-hyakki,百鬼夜行図,東京大学総合図書館,https://da.dl.itc.u-tokyo.ac.jp/portal/repo/iiif/fbd0479b-dbb4-4eaa-95b8-f27e1c423e4b/manifest,2,横長の絵巻（大画像のズーム確認用）,絵巻;日本
-ndl-1301718,相州江のしま詣之図,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1301718/manifest.json,2,一幽斎重宣（二代広重）による江の島参詣の錦絵、安政元年（3枚続）,錦絵;名所;日本
-ndl-1303405,相州三浦之海上,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1303405/manifest.json,2,歌川広重『不二三十六景』より、安政5年,錦絵;広重;名所
-ndl-1305154,相州七里ケ浜,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1305154/manifest.json,2,渓斎英泉による七里ヶ浜の風景,錦絵;名所
-ndl-1305444,飛鳥山の土,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1305444/manifest.json,2,歌川広重による飛鳥山の錦絵,錦絵;広重;名所
-ndl-1302019,浅草金竜山弁天山雪中之図,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1302019/manifest.json,2,歌川国芳による雪景色の浅草、嘉永6年,錦絵;国芳;名所
-ndl-1311379,葵坂,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1311379/manifest.json,2,三代豊国による江戸名所の美人画、安政4年,錦絵;豊国;名所
-ndl-1303892,足利光氏・宗入娘朝ぎり・高直・たまき,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1303892/manifest.json,2,歌川豊国による役者絵,錦絵;役者絵
-ndl-1307393,あいづり助六ノ図,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1307393/manifest.json,2,春扇による役者絵,錦絵;役者絵
-ndl-1301865,愛梅松桜　巻ノ二,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1301865/manifest.json,2,広貞による上方役者絵、嘉永7年（2枚）,錦絵;役者絵
-ndl-9369514,東錦絵,国立国会図書館,https://dl.ndl.go.jp/api/iiif/9369514/manifest.json,2,錦絵を貼り込んだ画帖（60画像）,錦絵;画帖
-ndl-2541121,あづまの花 江戸繪部類,国立国会図書館,https://dl.ndl.go.jp/api/iiif/2541121/manifest.json,2,清水晴風編、江戸の絵の分類帖（45画像）,画帖;江戸
-ndl-2575163,青本外題張込集. [1],国立国会図書館,https://dl.ndl.go.jp/api/iiif/2575163/manifest.json,2,青本（草双紙）の題簽を貼り込んだ資料（56画像）,草双紙;江戸
-ndl-763200,秋田男鹿名勝誌. 上,国立国会図書館,https://dl.ndl.go.jp/api/iiif/763200/manifest.json,2,狩野徳蔵著、明治17年の名所誌（56画像）,図書;明治;名所
-ndl-971864,浮世絵,国立国会図書館,https://dl.ndl.go.jp/api/iiif/971864/manifest.json,2,藤懸静也著、大正13年の浮世絵研究書（270画像）,図書;浮世絵
-ndl-1230041,愛知県史. 第2巻,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1230041/manifest.json,2,昭和13〜15年刊の県史（510画像・大量ページの確認用）,図書;歴史
-wellcome-b11945643,Women performing the tea ceremony,Wellcome Collection,https://iiif.wellcomecollection.org/presentation/v3/b11945643,3,楊洲周延による茶の湯の錦絵、1896年（Wellcome 所蔵）,錦絵;周延
-wellcome-b29011334,The colour-prints of Japan,Wellcome Collection,https://iiif.wellcomecollection.org/presentation/v2/b29011334,2,日本の多色摺版画の歴史（136画像、Presentation API v2）,図書;浮世絵
-wellcome-b21461430,The surgical & medical history of the naval war between Japan & China,Wellcome Collection,https://iiif.wellcomecollection.org/presentation/v3/b21461430,3,日清戦争の海軍医学報告（614画像・大量ページの確認用）,図書;医学
-cookbook-0010-rtl,Book with right-to-left viewing direction,IIIF Cookbook,https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/manifest-rtl.json,3,viewingDirection: right-to-left のサンプル,サンプル;図書
-cookbook-0011-continuous,Continuous behavior (scroll),IIIF Cookbook,https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/manifest-continuous.json,3,behavior: continuous の巻物サンプル,サンプル;巻物
-cookbook-0006-text-language,Multilingual label,IIIF Cookbook,https://iiif.io/api/cookbook/recipe/0006-text-language/manifest.json,3,多言語ラベル（言語マップ）のサンプル,サンプル;多言語
+id,title,provider,manifestUrl,iiifVersion,description,tags,thumbnailUrl
+wellcome-b18035723,Wunder der Vererbung,Wellcome Collection,https://iiif.wellcomecollection.org/presentation/v3/b18035723,3,遺伝学に関する1922年刊行のドイツ語図書（36ページ）,図書;科学,"https://iiif.wellcomecollection.org/image/b18035723_0001.JP2/full/!200,200/0/default.jpg"
+ndl-1286201,和泉国絵図,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1286201/manifest.json,2,江戸時代の和泉国の国絵図（大判1枚）,地図;日本,"https://dl.ndl.go.jp/api/iiif/1286201/R0000001/full/200,/0/default.jpg"
+stanford-bb157hs6068-v2,Nouvelle carte de la sphère (v2),Stanford University Libraries,https://purl.stanford.edu/bb157hs6068/iiif/manifest,2,天球図。Presentation API v2 版,地図;天文,"https://stacks.stanford.edu/image/iiif/bb157hs6068%2Fbb157hs6068_05_0001/full/!200,200/0/default.jpg"
+stanford-bb157hs6068-v3,Nouvelle carte de la sphère (v3),Stanford University Libraries,https://purl.stanford.edu/bb157hs6068/iiif3/manifest,3,同一資料の Presentation API v3 版（v2/v3 比較用）,地図;天文,"https://stacks.stanford.edu/image/iiif/bb157hs6068%2Fbb157hs6068_05_0001/full/!200,200/0/default.jpg"
+cookbook-0009-book-1,Simple Manifest - Book,IIIF Cookbook,https://iiif.io/api/cookbook/recipe/0009-book-1/manifest.json,3,IIIF Cookbook のページめくり用サンプル（5ページ）,サンプル;図書,"https://iiif.io/api/image/3.0/example/reference/59d09e6773341f28ea166e9f3c1e674f-gallica_ark_12148_bpt6k1526005v_f18/full/!200,200/0/default.jpg"
+cookbook-0005-image-service,Picture of Göttingen,IIIF Cookbook,https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json,3,Image API v3 サービス付きの単一画像,サンプル;写真,"https://iiif.io/api/image/3.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen/full/!200,200/0/default.jpg"
+cookbook-0001-mvm-image,Simplest Image Example,IIIF Cookbook,https://iiif.io/api/cookbook/recipe/0001-mvm-image/manifest.json,3,Image サービスなしの静的画像（フォールバック表示の確認用）,サンプル,https://iiif.io/api/presentation/2.1/example/fixtures/resources/page1-full.png
+kyoto-rb00000143,寛永後萬治前洛中絵図,京都大学貴重資料デジタルアーカイブ,https://rmda.kulib.kyoto-u.ac.jp/iiif/metadata_manifest/RB00000143/manifest.json,3,江戸前期の京都市街図（11画像）,地図;日本,"https://rmda.kulib.kyoto-u.ac.jp/iiif/3/RB00000143%2FRB00000143_00001_0.ptif/full/!200,200/0/default.jpg"
+bodleian-ms-ind-inst-misc-22,MS. Ind. Inst. Misc. 22,Bodleian Libraries,https://iiif.bodleian.ox.ac.uk/iiif/manifest/e32a277e-91e2-4a6d-8ba6-cc4bad230410.json,2,ボドリアン図書館所蔵の写本（84画像）,写本,"https://iiif.bodleian.ox.ac.uk/iiif/image/e58b8c60-005c-4c41-a22f-07d49cb25ede/full/!200,200/0/default.jpg"
+nijl-100249737,算法綴術,国文学研究資料館,https://kotenseki.nijl.ac.jp/biblio/100249737/manifest,2,和算書（72画像）,和算;日本,"https://kokusho.nijl.ac.jp/api/iiif/100249737/v4/THKW/THKW-16759/THKW-16759-00001.tif/full/!200,200/0/default.jpg"
+utokyo-hyakki,百鬼夜行図,東京大学総合図書館,https://da.dl.itc.u-tokyo.ac.jp/portal/repo/iiif/fbd0479b-dbb4-4eaa-95b8-f27e1c423e4b/manifest,2,横長の絵巻（大画像のズーム確認用）,絵巻;日本,"https://iiif.dl.itc.u-tokyo.ac.jp/iiif/hyakki/images/hyakki.tif/full/!200,200/0/default.jpg"
+ndl-1301718,相州江のしま詣之図,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1301718/manifest.json,2,一幽斎重宣（二代広重）による江の島参詣の錦絵、安政元年（3枚続）,錦絵;名所;日本,"https://dl.ndl.go.jp/api/iiif/1301718/R0000001/full/200,/0/default.jpg"
+ndl-1303405,相州三浦之海上,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1303405/manifest.json,2,歌川広重『不二三十六景』より、安政5年,錦絵;広重;名所,"https://dl.ndl.go.jp/api/iiif/1303405/R0000001/full/200,/0/default.jpg"
+ndl-1305154,相州七里ケ浜,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1305154/manifest.json,2,渓斎英泉による七里ヶ浜の風景,錦絵;名所,"https://dl.ndl.go.jp/api/iiif/1305154/R0000001/full/200,/0/default.jpg"
+ndl-1305444,飛鳥山の土,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1305444/manifest.json,2,歌川広重による飛鳥山の錦絵,錦絵;広重;名所,"https://dl.ndl.go.jp/api/iiif/1305444/R0000001/full/200,/0/default.jpg"
+ndl-1302019,浅草金竜山弁天山雪中之図,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1302019/manifest.json,2,歌川国芳による雪景色の浅草、嘉永6年,錦絵;国芳;名所,"https://dl.ndl.go.jp/api/iiif/1302019/R0000001/full/200,/0/default.jpg"
+ndl-1311379,葵坂,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1311379/manifest.json,2,三代豊国による江戸名所の美人画、安政4年,錦絵;豊国;名所,"https://dl.ndl.go.jp/api/iiif/1311379/R0000001/full/200,/0/default.jpg"
+ndl-1303892,足利光氏・宗入娘朝ぎり・高直・たまき,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1303892/manifest.json,2,歌川豊国による役者絵,錦絵;役者絵,"https://dl.ndl.go.jp/api/iiif/1303892/R0000001/full/200,/0/default.jpg"
+ndl-1307393,あいづり助六ノ図,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1307393/manifest.json,2,春扇による役者絵,錦絵;役者絵,"https://dl.ndl.go.jp/api/iiif/1307393/R0000001/full/200,/0/default.jpg"
+ndl-1301865,愛梅松桜　巻ノ二,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1301865/manifest.json,2,広貞による上方役者絵、嘉永7年（2枚）,錦絵;役者絵,"https://dl.ndl.go.jp/api/iiif/1301865/R0000001/full/200,/0/default.jpg"
+ndl-9369514,東錦絵,国立国会図書館,https://dl.ndl.go.jp/api/iiif/9369514/manifest.json,2,錦絵を貼り込んだ画帖（60画像）,錦絵;画帖,"https://dl.ndl.go.jp/api/iiif/9369514/R0000001/full/200,/0/default.jpg"
+ndl-2541121,あづまの花 江戸繪部類,国立国会図書館,https://dl.ndl.go.jp/api/iiif/2541121/manifest.json,2,清水晴風編、江戸の絵の分類帖（45画像）,画帖;江戸,"https://dl.ndl.go.jp/api/iiif/2541121/R0000001/full/200,/0/default.jpg"
+ndl-2575163,青本外題張込集. [1],国立国会図書館,https://dl.ndl.go.jp/api/iiif/2575163/manifest.json,2,青本（草双紙）の題簽を貼り込んだ資料（56画像）,草双紙;江戸,"https://dl.ndl.go.jp/api/iiif/2575163/R0000001/full/200,/0/default.jpg"
+ndl-763200,秋田男鹿名勝誌. 上,国立国会図書館,https://dl.ndl.go.jp/api/iiif/763200/manifest.json,2,狩野徳蔵著、明治17年の名所誌（56画像）,図書;明治;名所,"https://dl.ndl.go.jp/api/iiif/763200/R0000001/full/200,/0/default.jpg"
+ndl-971864,浮世絵,国立国会図書館,https://dl.ndl.go.jp/api/iiif/971864/manifest.json,2,藤懸静也著、大正13年の浮世絵研究書（270画像）,図書;浮世絵,"https://dl.ndl.go.jp/api/iiif/971864/R0000001/full/200,/0/default.jpg"
+ndl-1230041,愛知県史. 第2巻,国立国会図書館,https://dl.ndl.go.jp/api/iiif/1230041/manifest.json,2,昭和13〜15年刊の県史（510画像・大量ページの確認用）,図書;歴史,"https://dl.ndl.go.jp/api/iiif/1230041/R0000001/full/200,/0/default.jpg"
+wellcome-b11945643,Women performing the tea ceremony,Wellcome Collection,https://iiif.wellcomecollection.org/presentation/v3/b11945643,3,楊洲周延による茶の湯の錦絵、1896年（Wellcome 所蔵）,錦絵;周延,"https://iiif.wellcomecollection.org/image/b11945643_0001.jp2/full/!200,200/0/default.jpg"
+wellcome-b29011334,The colour-prints of Japan,Wellcome Collection,https://iiif.wellcomecollection.org/presentation/v2/b29011334,2,日本の多色摺版画の歴史（136画像、Presentation API v2）,図書;浮世絵,"https://iiif.wellcomecollection.org/image/b29011334_0001.jp2/full/!200,200/0/default.jpg"
+wellcome-b21461430,The surgical & medical history of the naval war between Japan & China,Wellcome Collection,https://iiif.wellcomecollection.org/presentation/v3/b21461430,3,日清戦争の海軍医学報告（614画像・大量ページの確認用）,図書;医学,"https://iiif.wellcomecollection.org/image/b21461430_0001.jp2/full/!200,200/0/default.jpg"
+cookbook-0010-rtl,Book with right-to-left viewing direction,IIIF Cookbook,https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/manifest-rtl.json,3,viewingDirection: right-to-left のサンプル,サンプル;図書,"https://iiif.io/api/image/3.0/example/reference/4f92cceb12dd53b52433425ce44308c7-ucla_bib1987273_no001_rs_001/full/!200,200/0/default.jpg"
+cookbook-0011-continuous,Continuous behavior (scroll),IIIF Cookbook,https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/manifest-continuous.json,3,behavior: continuous の巻物サンプル,サンプル;巻物,"https://iiif.io/api/image/3.0/example/reference/8c169124171e6b2253b698a22a938f07-21198-zz001hbmd9_1300412_master/full/!200,200/0/default.jpg"
+cookbook-0006-text-language,Multilingual label,IIIF Cookbook,https://iiif.io/api/cookbook/recipe/0006-text-language/manifest.json,3,多言語ラベル（言語マップ）のサンプル,サンプル;多言語,"https://iiif.io/api/image/3.0/example/reference/329817fc8a251a01c393f517d8a17d87-Whistlers_Mother/full/!200,200/0/default.jpg"

@@ -7,6 +7,8 @@ export interface ManifestEntry {
   readonly iiifVersion?: IiifVersion;
   readonly description?: string;
   readonly tags: readonly string[];
+  /** Small preview image shown on catalogue cards. */
+  readonly thumbnailUrl?: string;
 }
 
 export type IiifVersion = 2 | 3;

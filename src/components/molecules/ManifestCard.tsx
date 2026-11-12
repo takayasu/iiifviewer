@@ -1,9 +1,17 @@
 import { Caption1, Card, CardHeader, makeStyles, Tag, TagGroup, Text, tokens } from '@fluentui/react-components';
 import type { ManifestEntry } from '../../domain/types';
-import { VersionBadge } from '../atoms';
+import { Thumbnail, VersionBadge } from '../atoms';
+
+const THUMBNAIL_PX = '64px';
 
 const useStyles = makeStyles({
   card: { height: '100%', boxSizing: 'border-box' },
+  thumbnail: {
+    width: THUMBNAIL_PX,
+    height: THUMBNAIL_PX,
+    flexShrink: 0,
+    borderRadius: tokens.borderRadiusMedium,
+  },
   title: { fontWeight: tokens.fontWeightSemibold },
   description: {
     color: tokens.colorNeutralForeground2,
@@ -32,6 +40,8 @@ export function ManifestCard({ entry, onOpen }: ManifestCardProps) {
   return (
     <Card className={styles.card} onClick={() => onOpen(entry)} aria-label={`${entry.title} を開く`}>
       <CardHeader
+        // Decorative: the title right next to it already names the item.
+        image={<Thumbnail src={entry.thumbnailUrl} alt="" className={styles.thumbnail} />}
         header={<Text className={styles.title}>{entry.title}</Text>}
         description={<Caption1>{entry.provider}</Caption1>}
       />

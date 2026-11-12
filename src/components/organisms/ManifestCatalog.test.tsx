@@ -14,6 +14,7 @@ const entries: ManifestEntry[] = Array.from({ length: 30 }, (_, i) => ({
   manifestUrl: `https://x.org/${i + 1}`,
   iiifVersion: i % 2 === 0 ? 2 : 3,
   tags: i === 0 ? ['地図'] : [],
+  thumbnailUrl: i === 0 ? 'https://x.org/1/thumb.jpg' : undefined,
 }));
 
 function Harness({ initial = DEFAULT_CATALOG_VIEW_STATE, onOpen = vi.fn() }) {
@@ -29,11 +30,24 @@ function Harness({ initial = DEFAULT_CATALOG_VIEW_STATE, onOpen = vi.fn() }) {
 }
 
 describe('ManifestCatalog', () => {
-  it('shows the first page of cards without thumbnails', () => {
+  it('shows the first page of cards with small thumbnails', () => {
     renderWithProviders(<Harness />);
-    expect(screen.getAllByRole('group', { name: /を開く$/ })).toHaveLength(12);
-    expect(screen.queryByRole('img')).not.toBeInTheDocument();
+    const cards = screen.getAllByRole('group', { name: /を開く$/ });
+    expect(cards).toHaveLength(12);
+    // Thumbnails are decorative (the title is next to them), so they carry empty alt text.
+    const thumb = cards[0].querySelector('img');
+    expect(thumb).toHaveAttribute('src', 'https://x.org/1/thumb.jpg');
+    expect(thumb).toHaveAttribute('alt', '');
+    // Entries without a thumbnail get a placeholder instead of an image.
+    expect(cards[1].querySelector('img')).toBeNull();
     expect(screen.getByText('30 件中 1–12 件を表示')).toBeInTheDocument();
+  });
+
+  it('does not show thumbnails in the table view', async () => {
+    renderWithProviders(<Harness />);
+    await userEvent.click(screen.getByRole('tab', { name: 'テーブル' }));
+    const table = screen.getByRole('table', { name: 'マニフェスト一覧' });
+    expect(table.querySelector('img')).toBeNull();
   });
 
   it('pages through results', async () => {
