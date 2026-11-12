@@ -29,7 +29,8 @@ export function ViewerScreen({ manifest, manifestUrl }: ViewerScreenProps) {
   const zoomRef = useRef<DeepZoomHandle>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [isInfoOpen, setInfoOpen] = useState(false);
+  // Open by default so manifest/page metadata is visible; the pane can be closed.
+  const [isInfoOpen, setInfoOpen] = useState(true);
   const [viewport, setViewport] = useState<ViewportState>(INITIAL_VIEWPORT);
   const [imageError, setImageError] = useState<{ readonly canvasId: string; readonly message: string }>();
 
@@ -126,6 +127,8 @@ export function ViewerScreen({ manifest, manifestUrl }: ViewerScreenProps) {
         <MetadataPanel
           manifest={manifest}
           manifestUrl={manifestUrl}
+          canvas={canvas}
+          pageIndex={pages.index}
           isOpen={isInfoOpen}
           onClose={closeInfo}
         />

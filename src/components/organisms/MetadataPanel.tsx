@@ -1,62 +1,78 @@
 import {
-  Body1,
-  Caption1Strong,
   DrawerBody,
   DrawerHeader,
   DrawerHeaderTitle,
   InlineDrawer,
-  Link,
   makeStyles,
+  mergeClasses,
+  Subtitle2,
   tokens,
 } from '@fluentui/react-components';
 import { DismissRegular } from '@fluentui/react-icons';
-import { memo } from 'react';
-import type { NormalizedManifest } from '../../domain/types';
-import { isHttpUrl } from '../../domain/url';
+import { memo, useId, useMemo } from 'react';
+import { canvasRows, manifestRows, type PropertyRow } from '../../domain/metadataRows';
+import type { CanvasPage, NormalizedManifest } from '../../domain/types';
 import { IconButton, VersionBadge } from '../atoms';
+import { PropertyList } from '../molecules';
+
+const PANEL_WIDTH = '340px';
 
 const useStyles = makeStyles({
-  drawer: { borderLeft: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}` },
-  list: { display: 'grid', gap: tokens.spacingVerticalM, margin: 0 },
-  term: { color: tokens.colorNeutralForeground2 },
-  value: { margin: 0, wordBreak: 'break-word' },
+  drawer: { borderLeft: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`, width: PANEL_WIDTH },
+  // alignContent: start — without it the grid stretches rows to fill the drawer height.
+  body: { display: 'grid', alignContent: 'start', rowGap: tokens.spacingVerticalL, paddingBottom: tokens.spacingVerticalL },
+  section: { display: 'grid', alignContent: 'start', rowGap: tokens.spacingVerticalS },
+  pageSection: {
+    paddingTop: tokens.spacingVerticalM,
+    borderTop: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
+  },
 });
 
 export interface MetadataPanelProps {
   readonly manifest: NormalizedManifest;
   readonly manifestUrl: string;
+  /** The canvas currently shown in the viewer. */
+  readonly canvas?: CanvasPage;
+  readonly pageIndex: number;
   readonly isOpen: boolean;
   readonly onClose: () => void;
 }
 
-interface Row {
-  readonly label: string;
-  readonly value: string;
+interface SectionProps {
+  readonly title: string;
+  readonly rows: readonly PropertyRow[];
+  readonly className?: string;
 }
 
-function buildRows(manifest: NormalizedManifest): readonly Row[] {
-  const base: Row[] = [
-    { label: 'タイトル', value: manifest.label },
-    { label: '概要', value: manifest.summary ?? '' },
-    { label: '帰属表示', value: manifest.attribution ?? '' },
-    { label: 'ライセンス', value: manifest.rights ?? '' },
-    { label: 'ページ数', value: String(manifest.canvases.length) },
-  ];
-  return [...base, ...manifest.metadata].filter((row) => row.value !== '');
-}
-
-function Value({ value }: { readonly value: string }) {
-  return isHttpUrl(value) ? (
-    <Link href={value} target="_blank" rel="noopener noreferrer">
-      {value}
-    </Link>
-  ) : (
-    <>{value}</>
+function Section({ title, rows, className }: SectionProps) {
+  const styles = useStyles();
+  const headingId = useId();
+  return (
+    <section aria-labelledby={headingId} className={mergeClasses(styles.section, className)}>
+      <Subtitle2 as="h2" id={headingId}>
+        {title}
+      </Subtitle2>
+      <PropertyList rows={rows} />
+    </section>
   );
 }
 
-export const MetadataPanel = memo(function MetadataPanel({ manifest, manifestUrl, isOpen, onClose }: MetadataPanelProps) {
+/** Closable right pane: manifest-wide information above, the current canvas below. */
+export const MetadataPanel = memo(function MetadataPanel({
+  manifest,
+  manifestUrl,
+  canvas,
+  pageIndex,
+  isOpen,
+  onClose,
+}: MetadataPanelProps) {
   const styles = useStyles();
+  const manifestInfo = useMemo(() => manifestRows(manifest, manifestUrl), [manifest, manifestUrl]);
+  const pageInfo = useMemo(
+    () => (canvas ? canvasRows(canvas, pageIndex, manifest.canvases.length) : []),
+    [canvas, pageIndex, manifest.canvases.length],
+  );
+
   return (
     <InlineDrawer className={styles.drawer} open={isOpen} position="end" separator data-shortcuts="off">
       <DrawerHeader>
@@ -64,31 +80,9 @@ export const MetadataPanel = memo(function MetadataPanel({ manifest, manifestUrl
           情報 <VersionBadge version={manifest.version} />
         </DrawerHeaderTitle>
       </DrawerHeader>
-      <DrawerBody>
-        <dl className={styles.list}>
-          {buildRows(manifest).map((row, index) => (
-            <div key={`${row.label}-${index}`}>
-              <dt className={styles.term}>
-                <Caption1Strong>{row.label}</Caption1Strong>
-              </dt>
-              <dd className={styles.value}>
-                <Body1>
-                  <Value value={row.value} />
-                </Body1>
-              </dd>
-            </div>
-          ))}
-          <div>
-            <dt className={styles.term}>
-              <Caption1Strong>マニフェスト URL</Caption1Strong>
-            </dt>
-            <dd className={styles.value}>
-              <Body1>
-                <Value value={manifestUrl} />
-              </Body1>
-            </dd>
-          </div>
-        </dl>
+      <DrawerBody className={styles.body}>
+        <Section title="マニフェスト" rows={manifestInfo} />
+        {canvas && <Section title="表示中のページ" rows={pageInfo} className={styles.pageSection} />}
       </DrawerBody>
     </InlineDrawer>
   );

@@ -3,6 +3,7 @@ export { ErrorNotice, type ErrorNoticeProps } from './ErrorNotice';
 export { ManifestCard, type ManifestCardProps } from './ManifestCard';
 export { PageNavigator, type PageNavigatorProps } from './PageNavigator';
 export { Pagination, type PaginationProps } from './Pagination';
+export { PropertyList, type PropertyListProps } from './PropertyList';
 export { UrlOpenForm, type UrlOpenFormProps } from './UrlOpenForm';
 export { ViewModeSwitch, type ViewModeSwitchProps } from './ViewModeSwitch';
 export { ViewportStatus, type ViewportStatusProps } from './ViewportStatus';
